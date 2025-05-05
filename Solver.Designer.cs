@@ -141,6 +141,7 @@ namespace CalcMaster
             txtEquation.Name = "txtEquation";
             txtEquation.Size = new Size(643, 105);
             txtEquation.TabIndex = 1;
+            txtEquation.TextChanged += txtEquation_TextChanged;
             // 
             // btnSolve
             // 
@@ -179,7 +180,7 @@ namespace CalcMaster
             labelEquation.ForeColor = Color.White;
             labelEquation.Location = new Point(12, 27);
             labelEquation.Name = "labelEquation";
-            labelEquation.Size = new Size(172, 30);
+            labelEquation.Size = new Size(149, 25);
             labelEquation.TabIndex = 0;
             labelEquation.Text = "Enter Equation:";
             // 
@@ -226,6 +227,7 @@ namespace CalcMaster
             Name = "Solver";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Equation Solver";
+            Load += Solver_Load;
             ResumeLayout(false);
             PerformLayout();
         }

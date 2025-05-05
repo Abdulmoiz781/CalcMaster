@@ -4,16 +4,22 @@
     <Compile Update="Basic.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Graphs.cs">
+    <Compile Update="Diff.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="UC.cs">
+    <Compile Update="Graphs.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Home.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Notes.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="scientific.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UC.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Solver.cs">

@@ -15,7 +15,15 @@ namespace CalcMaster
         public UC()
         {
             InitializeComponent();
+            ThemeManager.ApplyTheme(this);
         }
+
+        private void Basic_Load(object sender, EventArgs e)
+        {
+            ThemeManager.LoadTheme();       // Line 1 ✅ Load from file
+            ThemeManager.ApplyTheme(this);  // Line 2 ✅ Apply to this form
+        }
+
 
         private void UnitConverterForm_Load(object sender, EventArgs e)
         {

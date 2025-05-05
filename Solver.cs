@@ -425,6 +425,13 @@ namespace CalcMaster
         public Solver()
         {
             InitializeComponent();
+            ThemeManager.ApplyTheme(this);
+        }
+
+        private void Basic_Load(object sender, EventArgs e)
+        {
+            ThemeManager.LoadTheme();       // Line 1 ✅ Load from file
+            ThemeManager.ApplyTheme(this);  // Line 2 ✅ Apply to this form
         }
 
 
@@ -793,6 +800,20 @@ namespace CalcMaster
         {
             //txtEquation.Clear();
             //txtEquation.Focus();
+            this.Hide();
+            Home obj = new Home();
+            obj.ShowDialog();
+            this.Close();
+        }
+
+        private void txtEquation_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Solver_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

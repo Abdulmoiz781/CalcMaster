@@ -232,12 +232,29 @@ namespace CalcMaster
             txtDisplay.ReadOnly = false;
             txtDisplay.WordWrap = false;
             txtDisplay.Multiline = true;
+            ThemeManager.ApplyTheme(this);
         }
 
         private void Basic_Load(object sender, EventArgs e)
         {
-            // You can leave this empty or add startup code here
+            ThemeManager.LoadTheme();                // Load saved theme
+            ThemeManager.ApplyTheme(this);           // Apply to full form
+            LoadCalculationHistory(); // Show last calculations when form opens
+        
         }
+
+        private void LoadCalculationHistory()
+        {
+            List<CalculationEntry> history = HistoryDatabase.GetRecentHistory(10);
+
+            richTextBoxHistory.Clear();
+
+            foreach (var entry in history)
+            {
+                richTextBoxHistory.AppendText($"{entry.Timestamp.ToShortTimeString()} - {entry.Expression} = {entry.Result}\n");
+            }
+        }
+
         //private void DigitButton_Click(object sender, EventArgs e)
         //{
         //    Button btn = (Button)sender;
@@ -378,9 +395,10 @@ namespace CalcMaster
                 double result = EvaluateExpression(expression);
                 txtDisplay.Text = result.ToString();
 
-                // ✅ Add this line to append to history:
-                richTextBoxHistory.AppendText(expression + " = " + result.ToString() + "\n");
+                HistoryDatabase.SaveCalculation(expression, result.ToString());
 
+                // ✅ Do NOT append here manually; the history will load from DB
+                LoadCalculationHistory(); // refresh right-side history
                 isResultShown = true;
             }
             catch
@@ -389,6 +407,7 @@ namespace CalcMaster
                 isResultShown = true;
             }
         }
+
 
 
         //private double EvaluateExpression(string expression)
@@ -406,6 +425,8 @@ namespace CalcMaster
             table.Locale = CultureInfo.InvariantCulture;
 
             object result = table.Compute(expression, "");
+            List<CalculationEntry> history = HistoryDatabase.GetRecentHistory();
+
             return Convert.ToDouble(result, CultureInfo.InvariantCulture); // ✅ ensure correct conversion
         }
 
@@ -460,6 +481,25 @@ namespace CalcMaster
                 txtDisplay.SelectionStart = cursorPos - 1;
             }
         }
+
+        private void ClearDatabase_Click(object sender, EventArgs e)
+        {
+            var confirm = MessageBox.Show("Are you sure you want to clear all history?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirm == DialogResult.Yes)
+            {
+                HistoryDatabase.ClearAllHistory(); // You will create this method
+                richTextBoxHistory.Clear();
+                MessageBox.Show("All history has been cleared from the database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+
+        private void ClearHistoryDatabase_Click(object sender, EventArgs e)
+        {
+            HistoryDatabase.ClearAllHistory();
+            LoadCalculationHistory(); // Refresh UI
+        }
+
 
     }
 }
